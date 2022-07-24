@@ -1,0 +1,54 @@
+# demoapp/deployment.yaml
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+# Provide some metadata for help referring to our containers
+metadata:
+  name: paas-app
+  labels:
+    app: paas-app
+spec:
+  # Tell Kubernetes how many replicas to create initially
+  replicas: 2
+  # Enter a selector name (again for reference)
+  selector:
+    matchLabels:
+      app: paas-app
+  template:
+    # More metadata
+    metadata:
+      labels:
+        app: paas-app
+    spec:
+      containers:
+        # Tell Kubernetes where to get the container from
+        - name: paas-app
+          image: passprojectcr.azurecr.io/passprojectcr:22
+        # Set the port for which the container will run on
+        # This should be the same as the port in your app config         
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          env:
+            - name: REPLICAS
+              value: "2"
+            - name: HTTP_LISTEN_PORT
+              value: "3000"
+# demoapp/service.yaml
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: paas-app
+  labels:
+    app: paas-app
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: paas-app

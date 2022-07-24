@@ -9,20 +9,24 @@ trigger:
 pool:
   name: "anas-agent"
 
+
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '12.x'
-  displayName: 'Install Node.js'
-
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
-
 - task: Docker@2
   inputs:
     containerRegistry: 'pass project service'
     repository: 'passprojectcr'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'paas aks service'
+    command: 'apply'
+    useConfigurationFile: true
+    configuration: 'deploy.yaml'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+    azureSubscriptionEndpointForSecrets: 'Azure for Students(d3ea73b3-b9b0-4712-b718-a44a57a683d0)'
+    azureContainerRegistry: 'passprojectcr.azurecr.io'
+    secretName: 'reactauth'
