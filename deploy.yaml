@@ -32,6 +32,6 @@ spec:
               protocol: TCP
           env:
             - name: REPLICAS
-              value: 2
+              value: "2"
             - name: HTTP_LISTEN_PORT
-              value: 3000
+              value: "3000"
