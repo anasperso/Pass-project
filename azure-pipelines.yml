@@ -9,6 +9,7 @@ trigger:
 pool:
   name: "anas-agent"
 
+
 steps:
 - task: Docker@2
   inputs:
@@ -16,3 +17,14 @@ steps:
     repository: 'passprojectcr'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'paas aks service'
+    command: 'apply'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+    azureSubscriptionEndpointForSecrets: 'Azure for Students(d3ea73b3-b9b0-4712-b718-a44a57a683d0)'
+    azureContainerRegistry: 'passprojectcr.azurecr.io'
+    secretName: 'reactauth'
