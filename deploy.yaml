@@ -23,7 +23,7 @@ spec:
       containers:
         # Tell Kubernetes where to get the container from
         - name: paas-app
-          image: passprojectcr.azurecr.io/passprojectcr:$(Build.BuildId)
+          image: passprojectcr.azurecr.io/passprojectcr:22
         # Set the port for which the container will run on
         # This should be the same as the port in your app config         
           ports:
