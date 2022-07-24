@@ -9,7 +9,7 @@ metadata:
     app: paas-app
 spec:
   # Tell Kubernetes how many replicas to create initially
-  replicas: "$(REPLICAS__TO__USE)"
+  replicas: $(REPLICAS__TO__USE)
   # Enter a selector name (again for reference)
   selector:
     matchLabels:
@@ -28,7 +28,7 @@ spec:
         # This should be the same as the port in your app config         
           ports:
             - name: http
-              containerPort: "$(HTTP_LISTEN_PORT)"
+              containerPort: $(HTTP_LISTEN_PORT)
               protocol: TCP
           env:
             - name: REPLICAS
@@ -47,7 +47,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: "$(HTTP_LISTEN_PORT)"
+    - port: $(HTTP_LISTEN_PORT)
       targetPort: http
       protocol: TCP
       name: http
