@@ -35,3 +35,18 @@ spec:
               value: "2"
             - name: HTTP_LISTEN_PORT
               value: "3000"
+# demoapp/service.yaml
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: paas-app
+  labels:
+    app: paas-app
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      targetPort: http
+      protocol: TCP
+      name: http
